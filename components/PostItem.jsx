@@ -1,5 +1,7 @@
+import Link from 'next/link'
 import { Card } from 'antd'
-import { Tag } from 'antd';
+import { Tag } from 'antd'
+import { dateFormat } from '../lib/utils'
 
 const tagColors = ['magenta','red','volcano','orange','gold','lime','green','cyan','blue','geekblue','purple']
 
@@ -9,27 +11,45 @@ const getTagColor = index => {
 }
 
 export default ({ post }) => {
+  const { postId, title, date, tagList, cate, content } = post
+  const postLink = `/post?postId=${postId}`
+  const tagArray = []
+  if (tagList.indexOf('|') > 0) {
+    tagList.split('|').forEach(tag => {
+      tagArray.push(tag)
+    })
+  } else {
+    tagArray.push(tagList)
+  }
   return (
-    <div className="card-post" key={post.title}>
-      <Card bordered={false} style={{ width: '100%' }}>
+    <div className="card-post" key={ postId }>
+      <Card bordered={ false } style={{ width: '100%' }}>
         <div className="item-wrapper">
-          <a className="item-title" href={ post.link }>{ post.title }</a>
+          <Link href={ postLink }>
+            <a className="item-title">{ title }</a>
+          </Link>
           <div className="item-info">
-            <span className="post-date">{ post.date }</span>
-            <span className="post-cate">{ post.cate }</span>
+            <span className="post-date">{ dateFormat(date) }</span>
+            <span className="post-cate">{ `⊙ ${cate}` }</span>
             <div className="post-tags">
               {
-                post.tagList.map((tag, index) => (
-                  <a href={tag.link}><Tag color={ getTagColor(index) }>{ tag.name }</Tag></a>
+                tagArray.map((tag, index) => (
+                  <Link href={ `/table?tableType=tag&tableName=${tag}` }>
+                    <a>
+                      <Tag color={ getTagColor(index) }>{ tag }</Tag>
+                    </a>
+                  </Link>
                 ))
               }
             </div>
           </div>
-          <div className="post-preview">{ post.preview }</div>
-          <a href={ post.link } className="show-btn">
-            <span className="btn-text">查看</span>
-            <img src="/toright.png" alt="" className="btn-icon"/>
-          </a>
+          <div className="post-preview">{ content }</div>
+          <Link href={ postLink }>
+            <a className="show-btn">
+              <span className="btn-text">查看</span>
+              <img src="/toright.png" alt="" className="btn-icon"/>
+            </a>
+          </Link>
         </div>
       </Card>
       <style jsx>
@@ -74,7 +94,7 @@ export default ({ post }) => {
             color: #33b7ff;
           }
           .post-cate {
-            color: #000c17;
+            color: #33b7ff;
           }
           .post-preview {
             width: 100%;
@@ -108,8 +128,6 @@ export default ({ post }) => {
             width: 20px;
             height: 20px;
           }
-
-
       `}
       </style>
     </div>

@@ -1,6 +1,12 @@
 import { Card } from 'antd'
+import Link from 'next/link'
+
+function getLink(postId) {
+  return `/post?postId=${postId}`
+}
 
 export default ({ posts }) => {
+  // const { postId, title, date, tagList, cate, content } = post
   return (
     <div className="card-posts">
       <Card title="最新文章"
@@ -10,9 +16,11 @@ export default ({ posts }) => {
       >
         {
           posts.map(p => (
-            <a key={p.title} href={p.link} className="latest-post">
-              {p.title}
-            </a>
+            <Link href={ getLink(p.postId) } key={p.postId}>
+              <a className="latest-post">
+                {p.title}
+              </a>
+            </Link>
           ))
         }
       </Card>

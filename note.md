@@ -20,4 +20,5 @@ Page.getInitialProps = async () => {
 	2. 存放共用的数据状态
 	3. 给页面传入自定义的数据
 
+## 配置
 

@@ -1,5 +1,5 @@
-import { Card } from 'antd'
-import { Tag } from 'antd';
+import { Card, Tag } from 'antd'
+import Link from 'next/link'
 
 const tagColors = ['magenta','red','volcano','orange','gold','lime','green','cyan','blue','geekblue','purple']
 const tagStyles = {
@@ -15,7 +15,7 @@ const getTagColor = index => {
 
 export default ({ tagList }) => {
   return (
-    <div className="card-tags">
+    <div className="card-tags" id="tags">
       <Card title="标签"
         bordered={false}
         style={{ width: '100%' }}
@@ -24,7 +24,13 @@ export default ({ tagList }) => {
         <div className="tag-wrapper">
           {
             tagList.map((tag, index) => (
-              <a href={tag.link}><Tag style={tagStyles} color={ getTagColor(index) }>{ tag.name }</Tag></a>
+              <Link href={ `/table?tableType=tag&tableName=${encodeURIComponent(tag)}` }>
+                <a>
+                  <Tag style={tagStyles} color={ getTagColor(index) }>
+                    { tag }
+                  </Tag>
+                </a>
+              </Link>
             ))
           }
         </div>

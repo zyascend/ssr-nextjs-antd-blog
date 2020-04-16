@@ -1,11 +1,15 @@
-import { Layout } from 'antd'
+import { Layout, BackTop } from 'antd'
+
 import { withRouter } from 'next/router'
 import CenterContainer from './CenterContainer'
+import React from 'react'
 
 const { Header, Content, Footer } = Layout
 
 const AppLayout = ({ children, router }) => {
-  const { query: { query = '' } = {} } = router
+  const { query: { query = '' } = {}, pathname} = router
+  const isHomePage = pathname === '/'
+  console.log(router)
   return (
     <Layout>
       <Header>
@@ -16,9 +20,8 @@ const AppLayout = ({ children, router }) => {
             </a>
             <div className="nav-wrapper">
               <a href="/" className="nav-link">主页</a>
-              <a href="/" className="nav-link">目录</a>
-              <a href="/" className="nav-link">标签</a>
-              <a href="/" className="nav-link">时间轴</a>
+              {isHomePage ? <a href="/#cate" className="nav-link">目录</a> : ''}
+              {isHomePage ? <a href="/#tags" className="nav-link">标签</a> : ''}
             </div>
           </div>
         </CenterContainer>
@@ -42,6 +45,7 @@ const AppLayout = ({ children, router }) => {
           </div>
         </div>
       </Footer>
+      <BackTop />
       <style jsx global>
         {`
           #__next {
@@ -55,20 +59,19 @@ const AppLayout = ({ children, router }) => {
           .ant-layout-header {
             padding-left: 0;
             padding-right: 0;
-            background: #fff
+            background: #fff !important;
+            background-color: #fff !important;
           }
           
-          .ant-layout-header {
-            padding-left: 0;
-            padding-right: 0;
-            background: #fff
-          }
-
           .ant-layout-content {
             background: #f1f1f1;
           }
           .ant-layout-footer {
-            background: #fff;
+            background: #fff !important;
+            background-color: #fff !important;
+          }
+          .ant-back-top {
+            bottom: 70px;
           }
         `}
       </style>

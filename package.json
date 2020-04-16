@@ -3,14 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
-    "font-awesome": "^4.7.0",
+    "@zeit/next-sass": "^1.0.1",
+    "atob": "^2.1.2",
+    "axios": "^0.19.2",
+    "compression": "^1.7.3",
+    "cross-env": "^7.0.2",
+    "express": "^4.16.4",
+    "github-markdown-css": "^4.0.0",
+    "glob": "^7.1.6",
+    "highlight.js": "^9.18.1",
+    "lru-cache": "^5.1.1",
+    "markdown-navbar": "^1.4.1",
+    "marked": "^0.8.2",
+    "mongoose": "^5.9.7",
     "next": "9.3.4",
+    "node-sass": "^4.13.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "redux": "^4.0.5"
@@ -18,7 +31,6 @@
   "devDependencies": {
     "@zeit/next-css": "^1.0.1",
     "antd": "^4.1.2",
-    "babel-plugin-import": "^1.13.0",
-    "koa": "^2.11.0"
+    "babel-plugin-import": "^1.13.0"
   }
 }

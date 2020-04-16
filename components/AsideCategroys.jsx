@@ -1,19 +1,24 @@
 import { Card } from 'antd'
+import Link from 'next/link'
+
 
 export default ({ cates }) => {
+
   return (
-    <div className="card-cates">
+    <div className="card-cates" id="cate">
       <Card title="文章分类"
-            bordered={false}
-            style={{ width: '100%' }}
-            headStyle={{ color: '#33b7ff', fontWeight: 700}}
+         bordered={false}
+         style={{ width: '100%' }}
+         headStyle={{ color: '#33b7ff', fontWeight: 700}}
       >
         {
           cates.map(cate => (
-            <div className="cate">
-              <a key={cate.name} href={cate.link} className="cate-name">
-                {cate.name}
-              </a>
+            <div className="cate" key={cate.name}>
+              <Link href={ `/table?tableType=cate&tableName=${cate.name}` }>
+                <a className="cate-name">
+                  {cate.name}
+                </a>
+              </Link>
               <span className="cate-count">{cate.count}</span>
             </div>
           ))
@@ -48,6 +53,9 @@ export default ({ cates }) => {
             font-size: 16px;
             text-overflow: ellipsis;
             overflow: hidden;
+          }
+          .cate-name:hover {
+            color: #33b7ff
           }
           .cate-count {
             height: 24px;
