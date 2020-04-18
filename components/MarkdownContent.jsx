@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react'
 import marked from 'marked'
 // import MarkNav from 'markdown-navbar'
 import hljs from 'highlight.js'
-import '../lib/markdown.scss'
+import '../public/css/markdown.scss'
 
 hljs.configure({
   tabReplace: '  ',
