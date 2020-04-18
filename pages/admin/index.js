@@ -1,6 +1,6 @@
 import { withRouter } from 'next/router'
 import Link from 'next/link'
-import { Table, Modal } from 'antd'
+import { Table, Modal, message } from 'antd'
 import { dateFormat } from '../../lib/utils'
 import { getIndexData, deletePost } from '../../lib/api'
 import WithSideMenu from '../../components/WithSideMenu'
@@ -46,19 +46,26 @@ const columns = [
 ]
 
 function doDeletePost(postId) {
-  console.log('开始删除： ', postId)
   confirm({
     title: '确定删除？',
     onOk() {
       return new Promise((resolve, reject) => {
         deletePost(postId, 1)
-          .then(resolve)
+          .then(({data, status}) => {
+            if (status === 200 && data.code === 0){
+              resolve()
+            } else {
+              reject(data.msg)
+            }
+        })
           .catch(reject)
       })
         .then(() => {
           window.location.reload()
         })
-        .catch(() => console.log('删除失败'))
+        .catch(err => {
+          message.error(`删除失败: ${err}`);
+        })
     },
     onCancel() {},
   });

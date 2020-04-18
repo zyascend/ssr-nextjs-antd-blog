@@ -1,5 +1,7 @@
 import Router, { withRouter } from 'next/router'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, message } from 'antd'
+import { setSessionStorage } from './../lib/utils'
+import { adminLogin } from './../lib/api'
 
 const layout = {
   labelCol: { span: 4 },
@@ -11,7 +13,18 @@ const tailLayout = {
 
 const LoginPage = () => {
   const onFinish = values => {
-    console.log('Success:', values)
+    adminLogin(values.username, values.password)
+      .then(res => {
+        const { status, data } = res
+        if (status === 200 && data.code === 0) {
+          setSessionStorage('adminCode', data.adminCode)
+          Router.replace('/admin')
+        } else {
+          throw new Error(data.msg)
+        }
+      }).catch(e => {
+        message.error(`删除失败: ${e}`);
+    })
   }
 
   const onFinishFailed = errorInfo => {

@@ -4,6 +4,7 @@ import { Form, Input, Button, Result } from 'antd'
 import { getPostDetail, submitPost } from '../../lib/api'
 import { base64ToString, stringToBase64 } from '../../lib/utils'
 import WithSideMenu from '../../components/WithSideMenu'
+import { getSessionStorage } from '../../lib/utils'
 
 const layout = {
   labelCol: { span: 4 },
@@ -29,7 +30,7 @@ const FormPage = ({ post }) => {
 
   const onFinish = async values => {
     const res  = await submitPost({
-      adminCode: values.adminCode,
+      adminCode: getSessionStorage('adminCode'),
       ...values.post,
       content: await stringToBase64(values.post.content)
     })
@@ -71,13 +72,6 @@ const FormPage = ({ post }) => {
             size="large"
             initialValues={ initData }
           >
-            <Form.Item
-              label="adminCode"
-              name="adminCode"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input.Password />
-            </Form.Item>
             <Form.Item name={['post', 'title']} label="标题" rules={[{ required: true }]}>
               <Input />
             </Form.Item>

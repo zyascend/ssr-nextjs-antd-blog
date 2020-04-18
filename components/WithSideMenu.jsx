@@ -1,6 +1,8 @@
 import React from 'react'
+import Router from 'next/router'
 import Link from 'next/link'
 import MenuItem from './../components/MenuItem'
+import { getSessionStorage } from './../lib/utils'
 
 export default (Comp) => {
   class withSideMenu extends React.Component {
@@ -16,6 +18,15 @@ export default (Comp) => {
       }
       return {
         ...appProps,
+      }
+    }
+
+    componentDidMount() {
+      const adminCode = getSessionStorage('adminCode')
+      console.log('componentDidMount', adminCode)
+      if (!adminCode) {
+        // 未登录 跳转到登陆页
+        Router.push('/login')
       }
     }
 
