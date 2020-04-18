@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import LatestPosts from '../components/LatestPosts'
-import AsideCategroys from '../components/AsideCategroys'
+import AsideCategory from '../components/AsideCategorys'
 import AsideTags from '../components/AsideTags'
 import PostItem from '../components/PostItem'
 import { getIndexData } from '../lib/api'
@@ -53,6 +53,10 @@ class HomePage extends Component {
     window.onscroll = this.onLoadMore
   }
 
+  componentWillUnmount() {
+    window.onscroll = null
+  }
+
   render() {
     const { tagList, cateList, latestPosts } = this.props
     const { postList } = this.state
@@ -61,13 +65,13 @@ class HomePage extends Component {
         <div className="post-wrapper">
           {
             postList.map(post => (
-              <PostItem post={post} key={post.postId}/>
+              <PostItem post={post} key={ post.postId }/>
             ))
           }
         </div>
         <div className="aside">
           <LatestPosts posts={ latestPosts } />
-          <AsideCategroys cates={ cateList } />
+          <AsideCategory cates={ cateList } />
           <AsideTags tagList={ tagList } />
         </div>
         <style jsx>{`
@@ -100,32 +104,16 @@ class HomePage extends Component {
       }
       
     `}</style>
-
-        <style jsx global>{`
-      html,
-      body {
-        padding: 0;
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-    `}</style>
       </div>
     )
   }
 
 }
-HomePage.getInitialProps = async (ctx) => {
+HomePage.getInitialProps = async () => {
   const res = await getIndexData(1, 5)
-  console.log('getIndexData', res.data)
   const data = res.data
-  const { posts, tagList, cateList } = data
+  const { posts, tagList, cateList, maxPostCount } = data
   const latestPosts = posts.slice(0, 5)
-  const maxPostCount = 10
   return {
     posts, tagList, cateList, latestPosts, maxPostCount
   }
